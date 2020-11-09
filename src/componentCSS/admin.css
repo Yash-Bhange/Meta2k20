@@ -1,25 +1,40 @@
+#body{
+  background-color:#333d33;
+}
 #adminHeader{
     height: 60px;
-    margin-top: 20px;
+   color:white;
     text-align: center;
-    font-size:25px;
+    font-size:30px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color:#333d33;
+    padding-top:12px;
+    padding-bottom: 10px;
  
    
 }
 
 #controlButton{
    
-    height:50px;
-    text-align: center;
+    height:150px;
+    background-color: #333d33;
+    
 }
-.butSection{
-    display: inline;
-    margin-top: 10px;;
-    margin-left: 20px;
-    margin-right: 20px;
-   
+
+#content{
+  float:left;
+  color:white;
+  margin-left: 18%;
+  transition: transform .2s;
+  text-align: center;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+#content:hover{
+  transform: scale(1.25);
+}
+
 
 #leftAlign{
     float:left;
@@ -52,6 +67,7 @@
     padding: 0;
     border: 1px solid #888;
     width: 40%;
+    height:300px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -91,15 +107,64 @@
     color: white;
   }
   
-  .modal-body {padding: 2px 16px;}
+  .modal-body {
+    padding: 2px 16px;
+  
+
+  }
   
 
 #tablesection{
     visibility: hidden;
+    text-align: center;
+    color:white;
+    font-size: 25px;
+    background-color:#333d33;
+}
+#footer{
+  background-color:#333d33;
+}
+#table{
+    text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    
 }
 
+#resultHeader{
+  display:none;
+  font-size: 30px;
+  text-align: center;
+  color:white;
+  background-color:#333d33;
 
-
+}
+.row{
+  padding: 15px 15px 15px 15px;
+}
+.col{
+  padding: 15px 15px 15px 15px;
+}
+#loader {
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 8px solid  #5cb85c;
+  width: 50px;
+  height: 50px;
+  float:right;
+  margin-right:45%;
+  margin-left: 15%;
+  text-align: center;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  display:none;
+}
+#status{
+  text-align:center;
+  font-size: 30px;
+  display: none;
+  margin-bottom: 10px;
+}
 
 
 
@@ -114,6 +179,10 @@
     font-size: xx-small;
     margin-left: 15px;
     margin-right: 15px;
+}
+#content{
+  font-size:8px;
+  margin-left:14%;
 }
 
 }

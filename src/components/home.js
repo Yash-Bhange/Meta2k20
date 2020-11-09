@@ -35,6 +35,9 @@ class Home extends Component{
   this.finalVote=this.finalVote.bind(this);
   this.loadStatus=this.loadStatus.bind(this);
   this.closeModal=this.closeModal.bind(this);
+  this.addLoader=this.addLoader.bind(this);
+  this.winner=this.winner.bind(this);
+  this.result=this.result.bind(this);
 
     
   };
@@ -70,6 +73,7 @@ class Home extends Component{
          
         const networkData = Election.networks[networkId];
          const election = new web3.eth.Contract(Election.abi, networkData.address);
+         console.log(networkData.address)
 
          election.methods.organiser().call({from:this.state.currentAccount},(err,hash)=>{
 
@@ -128,7 +132,30 @@ async adminEntry(e){
   }else{
       window.location.href="/admin";
   }
+}
 
+async result(){
+   
+  if(this.state.status==true){
+    window.alert("Voting is still LIVE")
+  }
+  else{
+
+  }
+
+
+
+}
+
+async winner(){
+
+  if(this.state.status==true){
+    window.alert("Voting is still LIVE")
+  }
+  else
+  {
+
+  }
 
 }
 
@@ -160,14 +187,15 @@ async closeModal(e){
     chossenTeam:'-1',
     chossenTeamName:''
   });
+  window.location.href="/home"
   
   
 }
 
+
 async finalVote(e){
   e.preventDefault();
-
-   var voterName=document.getElementById('votername').value;      //name feild not added in smart contract
+    
    if(this.state.status==false){
      window.alert("Voting has not started yet !")
     
@@ -192,13 +220,16 @@ async finalVote(e){
 
                             
                       var index=parseInt(this.state.chossenTeam);
+                      
                       election.methods.vote(index).send({from:this.state.currentAccount},(err,hash)=>{
                   
                       if(err){
                         window.alert(err);
                       }
                       else{
-                        window.alert("success")
+                        
+                        this.addLoader(hash);
+                        
                       }
                       });
                   
@@ -213,6 +244,54 @@ async finalVote(e){
 }
 
 
+addLoader(hash){
+ 
+  var loader=document.getElementById('loader');
+  loader.style.display="block";
+  var button=document.getElementById('vote');
+  button.style.display="none";
+  var closeButton=document.getElementById('closebutton');
+  closeButton.style.display="none";
+  var confirmForm=document.getElementById('info');
+  confirmForm.style.display="none";
+  confirmForm.style.marginTop="10px"
+  var status=document.getElementById('status1');
+  status.innerHTML="Processing..."
+  status.style.marginTop="30px"
+  var modal = document.getElementById("myModal"); 
+
+
+  var voteInterval = setInterval(function(){
+    
+     window.web3.eth.getTransactionReceipt(hash,(err,result)=>{
+      if(err){
+        window.alert(err);
+      }
+      else if(result!=null)
+      {
+        
+        if(result.status==true){
+         
+          loader.style.display="none";
+          status.innerHTML="Vote Succesfully Recorded !"
+          
+          setTimeout(function(){
+            modal.style.display = "none"; 
+            window.location.href="/home"
+          },2000)
+          clearInterval(voteInterval);
+
+        }
+      }
+      else{
+        //continue loop
+      }
+    });
+
+     }, 1000);
+
+  //end
+}
 
 async loadStatus(){
     
@@ -242,13 +321,13 @@ async loadStatus(){
       <div id="header">
          
          <div id="adminSection">
-         <a  class="button js-button" role="button" onClick={this.adminEntry}>Administrator</a>
+                  <button id="adminButton"  class="headerButton"  onClick={this.adminEntry}>Admin</button> 
+                  
+                  
          </div> 
-
-
-         <div id="userSection">
-           <b> Current user : </b>{this.state.currentAccount}
-         </div>
+          <div id="userSection">
+                <span id="userAddress"> <b> Current user : </b><u>{this.state.currentAccount}</u></span> 
+          </div>
 
          
 
@@ -264,21 +343,18 @@ async loadStatus(){
 
 
                   <div id="mainTopic">
-                     {/* <fieldset>  */}
-                       {/* <legend><small>WLUG Presents</small></legend>  */}
-                               <div id="mT1">
-                                          <span><b>Metamorphosis 2K20</b></span>  <br></br>
-                                          <small> <span>Day 1: BLOCKCHAIN</span></small>
-                               </div>
-                                 
-                     {/* </fieldset> */}
+                         
+                         <span id="mT1">
+                               <small>WLUG Presents</small> <br></br> <br></br>
+                                <b> METAMORPHOSIS 2K20</b>   <br></br>
+                                <span>Day 1: BLOCKCHAIN</span>
                     
-
+                         </span>
                   </div>
 
 
       </div>
-      <hr></hr>
+     
       
 
 
@@ -333,11 +409,11 @@ async loadStatus(){
            <img src={rr} class="teamsImg" id="5Rajasthan Royals" onClick={this.vote}></img>
            </div>
 
-           <div id="7" class="teamDiv">
+           <div id="_7" class="teamDiv">
            <img src={kkr} class="teamsImg" id="6Kolkata Knight Riders" onClick={this.vote}></img>
            </div>
 
-           <div id="8" class="teamDiv">
+           <div id="_8" class="teamDiv">
            <img src={kp} class="teamsImg" id="7Kings XI Punjab" onClick={this.vote}></img>
            </div>
             
@@ -357,20 +433,28 @@ async loadStatus(){
 
                    
                     <div class="modal-content">
-                      <div class="modal-header">
-                        <span class="close" onClick={this.closeModal}>&times;</span>
-                          <center> <h2><b>Vote for {this.state.chossenTeamName}</b></h2></center> 
+                      <div class="modal-header" >
+                        <span class="close" onClick={this.closeModal} id="closebutton">&times;</span>
+                          <center> <h2><b><span id="modalHeader">Vote for {this.state.chossenTeamName}</span></b></h2></center> 
                       </div>
                       <div class="modal-body">
                           
 
                           <div id="confirmForm">
                                  <form id="myForm" onSubmit={this.finalVote}>
-                                    <label>Name :</label> <br></br>
-                                    <input type="text" maxlength="20" size="20" defaultValue="WLUG" id="votername"></input> <span>&nbsp;&nbsp; (Optional)  </span> <br></br><br></br>
-                                    <label>Curnet User :</label>   <br></br>
-                                    <input type="text" size="45" value={this.state.currentAccount} readOnly></input>  <br></br><br></br> <br></br><br></br>
+                                    <div id="info">
+                                          <br></br>
+                                        <label>Current User :</label>   <br></br>
+                                        <input type="text" size="45" value={this.state.currentAccount} readOnly></input>  <br></br><br></br> <br></br><br></br>
+                                    </div>
+                                    <div id="loader">
+                                          
+                                    </div>
                                     <center><button type="submit" id="vote"><b>Vote</b></button></center><br></br><br></br>
+                                    <div id="status1">
+
+                                    </div>
+                                   
         
                                  </form>
                           </div>
@@ -380,14 +464,6 @@ async loadStatus(){
                     </div>
 
         </div>
-
-      
-
-
-
-
-
-
 
 
 

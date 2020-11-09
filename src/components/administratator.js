@@ -22,6 +22,8 @@ class Admin extends Component {
     this.endVoting=this.endVoting.bind(this);
     this.showResult=this.showResult.bind(this);
     this.getWinner=this.getWinner.bind(this);
+    this.closeModal=this.closeModal.bind(this);
+    this.openModal=this.openModal.bind(this);
 
 
 
@@ -99,17 +101,11 @@ async loadBlockchainData(){
              status:hash
             });
            
-
-            
           }
          });
 
         
     }
-
-
-
-
 
 }
 
@@ -125,18 +121,63 @@ async startVoting(e){
         window.alert(err)
       }
       else{
-        window.alert("success");
-        this.setState({
-   
-          status:true
-         });
+
+          var header=document.getElementById('teamname');
+          var closeButton=document.getElementById('closeButton');
+          closeButton.style.display="none";
+          header.innerHTML="Confirming Transaction... It may take a while !"; 
+          header.style.fontSize="30px"  
+          header.style.textAlign="center";     
+          var modal = document.getElementById("myModal");
+          modal.style.display = "block";
+
+          var logo=document.getElementById('logo');
+          logo.innerHTML="<br></br>"
+           
+          var loader=document.getElementById('loader');
+          loader.style.display="block";
+          
+          var status=document.getElementById('status');
+          status.style.display="block"
+        
+         
+
+
+
+        var voteInterval = setInterval(function(){
+          
+           window.web3.eth.getTransactionReceipt(hash,(err,result)=>{
+            if(err){
+              window.alert(err);
+            }
+            else if(result!=null)
+            {
+              
+              if(result.status==true){
+                header.innerHTML="Success !"; 
+                loader.style.display="none";
+                status.innerHTML="Voting Started Successfully"
+
+                setTimeout(function(){
+                  modal.style.display = "none"; 
+                  window.location.href="/admin"
+                },2000)
+                clearInterval(voteInterval);
+              }
+            }
+            else{
+              //continue loop
+            }
+          });
+
+           }, 1000);
       }
+
     });
 
-
-
-
 }
+
+
 async endVoting(e){
     e.preventDefault();
 
@@ -147,32 +188,70 @@ async endVoting(e){
         window.alert(err)
       }
       else{
-        window.alert("success");
-        this.setState({
-   
-          status:false
+        var header=document.getElementById('teamname');
+        var closeButton=document.getElementById('closeButton');
+        closeButton.style.display="none";
+        header.innerHTML="Confirming Transaction... It may take a while !"; 
+        header.style.fontSize="30px"  
+        header.style.textAlign="center";     
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+
+        var logo=document.getElementById('logo');
+        logo.innerHTML="<br></br>"
+         
+        var loader=document.getElementById('loader');
+        loader.style.display="block";
+        
+        var status=document.getElementById('status');
+        status.style.display="block"
+
+
+
+        var voteInterval = setInterval(function(){
+          
+          window.web3.eth.getTransactionReceipt(hash,(err,result)=>{
+           if(err){
+             window.alert(err);
+           }
+           else if(result!=null)
+           {
+             
+             if(result.status==true){
+               header.innerHTML="Success !"; 
+               loader.style.display="none";
+               status.innerHTML="Voting Ended"
+
+               setTimeout(function(){
+                 modal.style.display = "none"; 
+                 window.location.href="/admin"
+               },2000)
+               clearInterval(voteInterval);
+             }
+           }
+           else{
+             //continue loop
+           }
          });
 
+          }, 1000);
+       
+           //updating result at end of voting
          election.methods.getResult().call({from:this.state.currentAccount},(err,hash)=>{
           if(err){
             window.alert(err)
           }
           else{
-            window.alert("success");
+            
             this.setState({
        
               votes:hash
              });
              
-          
-    
+
           }
         })
         
-        
-
-
-
       }
     });
 
@@ -188,11 +267,14 @@ async showResult(e){
         window.alert(err)
       }
       else{
-        window.alert("success");
+        
         this.setState({
    
           votes:hash
          });
+
+         var resultHeader=document.getElementById('resultHeader');
+         resultHeader.style.display="block"
           // display table
           var table=document.getElementById('tablesection');
           table.style.visibility='visible'
@@ -228,15 +310,13 @@ async getWinner(e){
   
 }
 
-async closeModal(e){
-  e.preventDefault();
+closeModal(){
+ 
   var modal = document.getElementById("myModal");
   modal.style.display = "none";
   
-  
-  
 }
-async openModal(maxPosition){
+openModal(maxPosition){
   
   var teamNames=["Chennai Super Kings","Mumbai Indians","Royals Challengers Bangalore","Delhi Capitals","Sun Risers Hyderabad","Rajasthan Royals","Kolkata Knight Riders","Kings XI Punjab"]
   var logos=[csk,mi,rcb,dc,srh,rr,kkr,kp]
@@ -244,11 +324,20 @@ async openModal(maxPosition){
   
   var header=document.getElementById('teamname')
   header.innerHTML=winner;
+  header.style.fontSize="40px"
+  header.style.textAlign="center"
 
   var logo=document.getElementById('teamLogo')
   logo.src=logos[maxPosition];
   logo.style.width="200px"
   logo.style.height="200px"
+  logo.style.transform="scale(0.9)";
+  
+  var logoDiv=document.getElementById('logo')
+  logoDiv.style.textAlign="center"
+
+
+  
 
 
   var modal = document.getElementById("myModal");
@@ -261,83 +350,89 @@ render(){
 
   return (
 
-    <div>  
+    <div id="body">  
 
                     <div id="adminHeader">
 
-                            Admin Control Panel
+                           Admin Control Panel
+                      
 
                     </div>
 
                  <div id="controlButton"> 
 
-                    <div id="leftAlign"> 
+                            <div id="leftAlign"> 
 
 
-                        <div class="butSection">
-                          <a  class="button js-button" role="button" onClick={this.startVoting}>Start Voting</a>
-                          </div>
+                            <button id="startVoting"  class="headerButton"  onClick={this.startVoting}>Start Voting</button> 
+                            <button id="endVoting"  class="headerButton"  onClick={this.endVoting}>End Voting</button> 
 
-                          <div class="butSection">
-                          <a  class="button js-button" role="button" onClick={this.endVoting}>Stop Voting</a>
-                        </div>
-
-                    </div>
-
-                    <div id="rightAlign">
-                             
-                          <div class="butSection">
-                            <a  class="button js-button" role="button" onClick={this.showResult}>Show Result</a>
-                            </div>
-                            <div class="butSection">
-                            <a  class="button js-button" role="button" onClick={this.getWinner}>Get Winner</a>
                             </div>
 
-                    </div>
-        
+                            <div id="content">
+                            <small>WLUG Presents</small><br></br><br></br>
+                              <b> METAMORPHOSIS 2K20</b> <br></br>
+                              DAY 1: BLOCKCHAIN
 
-                 </div>
+                            </div>
 
 
+                            <div id="rightAlign">
+                                    
+                            <button id="showResult"  class="headerButton"  onClick={this.showResult}>Show Result</button> 
+                            <button id="getWinner"  class="headerButton"  onClick={this.getWinner}>Winner ?</button> 
 
+                            </div>
+ 
+                   </div>
+
+
+                  <div id="resultHeader">
+                    <br></br> 
+                    <hr></hr>
+                    <span>Results are shown below</span>
+                    <hr></hr>
+                    <br></br> 
+                  </div>
                  <div id="tablesection">
                              <table id="table" border="1px" >
                                   <tbody>
                                     
-                                  <tr> 
-                                    <th><span class="row1">TEAMS</span></th>
-                                    <th><span class="row1">Number of Votes</span></th>
+                                  <tr class="row"> 
+                                    <th class="col"><span class="row1">TEAMS</span></th>
+                                    <th class="col"><span class="row1">Number of Votes</span></th>
                                  </tr>
-                                 <tr> 
-                                    <td>Chennai Super Kings</td>
-                                    <td>{this.state.votes[0]}</td>
+                                 <tr class="row"> 
+                                    <td class="col">Chennai Super Kings</td>
+                                    <td class="col">{this.state.votes[0]}</td>
                                  </tr>
-                                 <tr> 
-                                    <td>Mumbai Indians</td>
-                                    <td>{this.state.votes[1]}</td>
+                                 <tr class="row"> 
+                                    <td class="col">Mumbai Indians</td>
+                                    <td class="col">{this.state.votes[1]}</td>
                                  </tr>
-                                 <tr> 
-                                    <td>Royal Challengers Bangalore</td>
-                                    <td>{this.state.votes[2]}</td>
+                                 <tr class="row"> 
+                                    <td class="col">Royal Challengers Bangalore</td>
+                                    <td class="col">{this.state.votes[2]}</td>
                                  </tr>
-                                 <tr> 
-                                    <td>Delhi Capitals</td>
-                                    <td>{this.state.votes[3]}</td>
+                                 <tr class="row"> 
+                                    <td class="col">Delhi Capitals</td>
+                                    <td class="col">{this.state.votes[3]}</td>
                                  </tr>
-                                 <tr> 
-                                    <td>Sun Risers Hyderabad</td>
-                                    <td>{this.state.votes[4]}</td>
+                                 <tr class="row"> 
+                                    <td class="col">Sun Risers Hyderabad</td>
+                                    <td class="col">{this.state.votes[4]}</td>
                                  </tr>
-                                 <tr> 
-                                    <td>Rajasthan Royals</td>
-                                    <td>{this.state.votes[5]}</td>
+                                 <tr class="row"> 
+                                    <td class="col">Rajasthan Royals</td>
+                                    <td class="col">{this.state.votes[5]}</td>
                                  </tr>
-                                 <tr> 
-                                    <td>Kolkata Knight Riders</td>
-                                    <td>{this.state.votes[6]}</td>
-                                 </tr><tr> 
-                                    <td>Kings XI Punjab</td>
-                                    <td>{this.state.votes[7]}</td>
+                                 <tr class="row"> 
+                                    <td class="col">Kolkata Knight Riders</td>
+                                    <td class="col">{this.state.votes[6]}</td>
+                                 </tr>
+                                 <tr class="row"> 
+                                    <td class="col">Kings XI Punjab</td>
+                                    <td class="col">{this.state.votes[7]}</td>
                                  </tr>
 
 
@@ -346,6 +441,10 @@ render(){
 
 
                               </table>
+                </div>
+                <div id="footer">
+                  <br></br>
+                  <br></br>
                 </div>
 
 
@@ -357,7 +456,7 @@ render(){
                    
                     <div class="modal-content">
                       <div class="modal-header" >
-                        <span class="close" onClick={this.closeModal}> &times;</span>
+                        <span class="close" onClick={this.closeModal} id="closeButton"> &times;</span>
                           <div id="teamname">
                            <h2><b>team name</b></h2>
                           </div>
@@ -365,12 +464,18 @@ render(){
                       </div>
                       <div class="modal-body" id="logo">
                           
-                      <img src="" class="teamsImg" id="teamLogo" ></img>
+                        <img src="" class="teamsImg" id="teamLogo" ></img>
                        
                         
                       </div>
+                      <div id="loader">
+
+                      </div>
+                      <div id="status">
+                         
+                      </div>
                      
-                    </div>
+                   </div>
 
                 </div>
 
