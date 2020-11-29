@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+### steps to run the code on local machine with Ganache !
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ 1) pull the code in specific folder(ex:Election) <br>
+ 2) run npm install to install dependencies(if error try command with administrator privilage or use 'sudo')  <br> 
+ &nbsp;&nbsp;2-a) run npm install react-scripts@2.1.8 --save  <br>
+ &nbsp;&nbsp;2-b) add node modules folder to .gitignore file <br>
+ 3) open local blockchian i.e ganache (will provide u 10 accounts )  <br>
+ 4) run command "truffle compile" in Election folder  <br>
+ 5) run  command "truffle migrate --reset" in same folder  <br>
+ 6) run npm start (start development server)  <br>
+ 7) web page will show metamask popup   <br>
+ 8) click on import account through seed phrase  <br>
+ 9) paste  12 words seed phrase from ganache to metamask  <br>
+ 10) set password  <br>
+ 11) you are all set to go !   <br>
+ 
+ <b> Note :</b>  You need to run step 4,5,8,9 every time you restart of open new instance of Ganache <br>
 
-## Available Scripts
+### steps to run the code on on Ropsten test network!
 
-In the project directory, you can run:
+ 1) pull the code in specific folder(ex:Election) <br>
+ 2) run npm install to install dependencies (if error try command with administrator privilage or use 'sudo') <br>
+ &nbsp;&nbsp;2-a)  run npm install react-scripts@2.1.8 --save <br>
+ 3) run command truffle compile in Election folder  <br> 
+ 4) customizing Metamask and Infura> <br>
+ &nbsp;&nbsp;4-a) Register on Infura.io website, create project & copy project ID. <br>
+ &nbsp;&nbsp;4-b) Download metamask extension for browser ,Register on it.set password  and save the 12 word phrase somewhere. <br>
+ &nbsp;&nbsp;4-c) Create s secret.json file  whose structure is -  {  <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; "mnemonic": "12 word phrase",      <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  "projectId": "e98bfc46....."    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; }  <br>
+5) add secret.json file & node modules folder to .gitignore file <br>
+6) run command "truffle migrate --reset --network ropsten" in same folder (it will take some time) <br>
+7) run npm start (start development server)  <br>
+8) web page will show metamask popup , enter the password which you have set at the start <br>
+9) you are all set to go !   <br>
 
-### `npm start`
+ <b> Note :</b> step 3,5,6 & all section of 4  are on time step.  Do not repeat every time you start the website<br><br><br>
+ ### Firebase deployment are not explained here!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
