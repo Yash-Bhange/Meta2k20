@@ -36,6 +36,6 @@
 9) you are all set to go !   <br>
 
  <b> Note :</b> step 3,5,6 & all section of 4  are on time step.  Do not repeat every time you start the website<br><br><br>
- ### Firebase deployment are not explained here!
+ ### Firebase deployment  steps are not explained here!
 
 
