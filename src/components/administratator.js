@@ -293,19 +293,40 @@ async getWinner(e){
     window.alert("Voting is still LIVE !")
 
   }
-  else{  
-      
-    var votes=this.state.votes;
-    var maxPosition=0
-    var maxVotesCount=parseInt(votes[0]);
-    for(var i=1;i<8;i++){
-      if(parseInt(votes[i])>maxVotesCount)
-      {
-        maxVotesCount=parseInt(votes[i]);
-        maxPosition=i
+  else{   
+
+    //fetching result
+    const networkId = await window.web3.eth.net.getId();
+    const election = new window.web3.eth.Contract(Election.abi, Election.networks[networkId].address);
+    election.methods.getResult().call({from:this.state.currentAccount},(err,hash)=>{
+      if(err){
+        window.alert(err)
       }
-    }
-     this.openModal(maxPosition);
+      else{
+        
+        this.setState({
+   
+          votes:hash
+         });
+
+
+         //determining winner
+           var votes=this.state.votes;
+          var maxPosition=0
+          var maxVotesCount=parseInt(votes[0]);
+          for(var i=1;i<8;i++){
+            if(parseInt(votes[i])>maxVotesCount)
+            {
+              maxVotesCount=parseInt(votes[i]);
+              maxPosition=i
+            }
+          }
+          this.openModal(maxPosition);
+      }
+    })
+    //fetching complete
+      
+    
   }
   
 }

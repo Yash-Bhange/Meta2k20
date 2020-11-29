@@ -9,7 +9,6 @@ import srh from '../iplTeamsImages/srh.png'
 import kp from '../iplTeamsImages/kp.png'
 import kkr from '../iplTeamsImages/kkr.png'
 import rr from '../iplTeamsImages/rr.png'
-import wlugImg from '../iplTeamsImages/WLUG.jpg'
 import Election from '../abis/contracts/Election.json'
 
 
@@ -276,9 +275,23 @@ addLoader(hash){
           status.innerHTML="Vote Succesfully Recorded !"
           
           setTimeout(function(){
-            modal.style.display = "none"; 
-            window.location.href="/home"
-          },2000)
+                //modal.style.display = "none"; 
+                status.innerHTML=""
+                closeButton.style.display="block";
+                var aTag = document.createElement('a');
+                var link="https://ropsten.etherscan.io/tx/"+hash;
+                aTag.setAttribute('href',link);
+                aTag.innerText = "click here to see Transaction details";
+                aTag.style.color="red";
+                aTag.style.fontSize="20px";
+                aTag.target="_blank"
+                status.appendChild(aTag);
+
+
+                //window.location.href="/home"
+            
+          },1000)
+
           clearInterval(voteInterval);
 
         }
@@ -347,7 +360,7 @@ async loadStatus(){
                          <span id="mT1">
                                <small>WLUG Presents</small> <br></br> <br></br>
                                 <b> METAMORPHOSIS 2K20</b>   <br></br>
-                                <span>Day 1: BLOCKCHAIN</span>
+                                <span>Day 2: BLOCKCHAIN</span>
                     
                          </span>
                   </div>

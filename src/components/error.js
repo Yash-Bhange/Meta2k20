@@ -1,5 +1,6 @@
 import React ,{Component} from 'react';
 import '../componentCSS/error.css'
+import tux from '../iplTeamsImages/tux.png'
 
 
 class Error extends Component {
@@ -26,24 +27,34 @@ render(){
 
   return (
 
-    <div id="section1">  
+    <div>  
           
 
          <div id="section2">
          <p>Something went wrong !</p>
          </div>
-         
-        <div id="section3">
-                <p> <b> Please make sure :</b></p>  
-                <p>1. Use Laptop/pc</p> 
+          
+          <div id="blank">
+
+          <div id="section3">
+                 Please make sure :
+                <p>1. Use Laptop/PC</p> 
                 <p>2. Metamask Extension is installed.</p>
                 <p>3. Metamask Network should be 'ROPSTEN' Network</p>
 
-        </div>
+          </div>
+
+          </div>
+      
 
         <div id="section4">
                  
-        <a  class="button js-button" role="button" onClick={this.reload}>Reload</a>
+        <button id="reloadButton"  onClick={this.reload}>Reload</button> 
+
+        </div>
+        <div id="section5">
+        
+            <img src={tux} id="tux"></img>
 
         </div>
         
