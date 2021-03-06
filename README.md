@@ -39,3 +39,7 @@
  ### Firebase deployment  steps are not explained here!
 
 
+<b> Sample Work :</b> <br>
+
+<img src='./sample_work/meta1.png' width="80%" height="400px" >
+
