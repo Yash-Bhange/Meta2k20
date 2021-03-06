@@ -41,5 +41,7 @@
 
 <b> Sample Work :</b> <br>
 
-<img src='./sample_work/meta1.png' width="80%" height="400px" >
-
+<img src='./sample_work/meta1.png' width="100%" height="400px" > <br><br>
+<img src='./sample_work/meta2.png' width="100%" height="400px" > <br><br>
+<img src='./sample_work/meta3.png' width="100%" height="400px" > <br><br>
+<img src='./sample_work/meta4.png' width="100%" height="400px" >  <br><br>
