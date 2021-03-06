@@ -32,14 +32,14 @@
 5) add secret.json file & node modules folder to .gitignore file <br>
 6) run command "truffle migrate --reset --network ropsten" in same folder (it will take some time) <br>
 7) run npm start (start development server)  <br>
-8) web page will show metamask popup , enter the password which you have set at the start <br>
+8) web page will show metamask popup , enter the password which you have set at the start <br>,
 9) you are all set to go !   <br>
 
- <b> Note :</b> step 3,5,6 & all section of 4  are on time step.  Do not repeat every time you start the website<br><br><br>
- ### Firebase deployment  steps are not explained here!
+ <b> Note :</b> step 3,5,6 & all section of 4  are on time step.  Do not repeat every time you start the website<br><br><br>  
+ ### <b>Firebase deployment steps are not explained here!</b> <br>
 
 
-<b> Sample Work :</b> <br>
+<b> Sample Work : </b> <br>
 
 <img src='./sample_work/meta1.png' width="100%" height="400px" > <br><br>
 <img src='./sample_work/meta2.png' width="100%" height="400px" > <br><br>
